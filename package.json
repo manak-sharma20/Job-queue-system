@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/manak-sharma20/Job-queue-system#readme",
   "dependencies": {
+    "@prisma/client": "^7.2.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "prisma": "^7.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

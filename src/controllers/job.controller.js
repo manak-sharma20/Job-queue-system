@@ -1,5 +1,8 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma=require("../db/prisma")
+const jobQueue=require("../queues/jobQueue")
+
+
+
 
 async function createJob(req, res) {
   const job = await prisma.job.create({
@@ -9,6 +12,10 @@ async function createJob(req, res) {
       status: "PENDING",
     },
   });
+  await jobQueue.add("TEST_JOB",{
+    jobId: job.id,
+  })
+  
 
   return res.json({
     jobId: job.id,

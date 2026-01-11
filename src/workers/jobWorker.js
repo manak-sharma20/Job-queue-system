@@ -29,8 +29,7 @@ const worker = new Worker("job-queue",
         return "done"
     }
     catch(err){
-        await prisma.job.update({where:{id:jobId},data:{status:"FAILED"}})
-        console.log(`${jobId}`,err.message)
+        
         throw err;
 
     }
@@ -38,3 +37,16 @@ const worker = new Worker("job-queue",
     {connection}
     
 )
+worker.on("completed", (job, result) => {
+    console.log(`Job completed: ${job.id}`);
+  });
+worker.on("failed", (job, err) => {
+    console.error(` Job failed: ${job.id}`);
+    console.error(`Reason: ${err.message}`);
+    console.error(`Attempts made: ${job.attemptsMade}`);
+  });
+worker.on("error", (err) => {
+    console.error("Worker error:", err);
+  });
+  
+  
